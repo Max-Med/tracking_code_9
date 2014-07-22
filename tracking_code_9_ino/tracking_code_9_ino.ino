@@ -15,11 +15,14 @@ float flat, flon;
 #include <SD.h> 
 char datastring[100];
 const int chipSelect = 4;
-char clat[8];
-char clon[8];
-char calt[8];
-char cc[8];
-char cmps[8];
+char clat[10];
+char clon[10];
+char calt[10];
+char cc[10];
+char cmps[10];
+char ctime[8];
+long count=0;
+char ccount[5];
  
 
 void setup(){
@@ -62,12 +65,14 @@ void loop()
       dtostrf (flat, 10, 6, clat); 
       dtostrf (flat, 10, 6, clon); 
       float falt = gps.f_altitude(); // +/- altitude in meters
-      dtostrf (falt, 10, 6, calt); 
+      dtostrf (falt, 10, 4, calt); 
       float fc = gps.f_course(); // course in degrees
-      dtostrf (fc, 10, 6, cc); 
+      dtostrf (fc, 10, 5, cc); 
       float fmps = gps.f_speed_mps(); // speed in m/sec
-      dtostrf (fmps, 10, 6, cmps); 
+      dtostrf (fmps, 10, 4, cmps); 
       float flat, flon;
+      dtostrf (time, 8, 0, ctime);
+      dtostrf (count, 6, 0, ccount);
       
       unsigned long fix_age; // returns +- latitude/longitude in degrees
       gps.f_get_position(&flat, &flon, &fix_age);
@@ -78,7 +83,8 @@ void loop()
         mySerial.println("Warning: possible stale data!");
       else
         mySerial.println("Data is current.");
-        snprintf(datastring,sizeof(datastring),"$$MAX,%s,%s,%d,%s,%s,%s",clat,clon,gps.satellites(),calt,cmps,cc);
+        snprintf(datastring,sizeof(datastring),"$$MAX,%s,%s,%s,%s,%d,%s,%s,%s",ccount,ctime,clat,clon,gps.satellites(),calt,cmps,cc);
+        count = count + 1;
         mySerial.println(datastring); 
         
         File dataFile = SD.open("datalog.txt", FILE_WRITE);
