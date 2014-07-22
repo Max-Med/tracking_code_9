@@ -6,7 +6,7 @@ TinyGPS gps;
 SoftwareSerial mySerial(RXPIN, TXPIN);
 
 long lat, lon;
-unsigned long fix_age, time, date, speed, course;
+unsigned long fix_age, time, date, speed, course, count;
 float flat, flon;
 #define RADIOPIN 9
 
@@ -20,9 +20,7 @@ char clon[10];
 char calt[10];
 char cc[10];
 char cmps[10];
-char ctime[8];
-long count=0;
-char ccount[5];
+
  
 
 void setup(){
@@ -71,8 +69,6 @@ void loop()
       float fmps = gps.f_speed_mps(); // speed in m/sec
       dtostrf (fmps, 10, 4, cmps); 
       float flat, flon;
-      dtostrf (time, 8, 0, ctime);
-      dtostrf (count, 6, 0, ccount);
       
       unsigned long fix_age; // returns +- latitude/longitude in degrees
       gps.f_get_position(&flat, &flon, &fix_age);
@@ -83,7 +79,7 @@ void loop()
         mySerial.println("Warning: possible stale data!");
       else
         mySerial.println("Data is current.");
-        snprintf(datastring,sizeof(datastring),"$$MAX,%s,%s,%s,%s,%d,%s,%s,%s",ccount,ctime,clat,clon,gps.satellites(),calt,cmps,cc);
+        snprintf(datastring,sizeof(datastring),"$$MAX,%l,%l,%s,%s,%d,%s,%s,%s",count,time,clat,clon,gps.satellites(),calt,cmps,cc);
         count = count + 1;
         mySerial.println(datastring); 
         
