@@ -1,6 +1,5 @@
 #include <TinyGPS.h>
 TinyGPS gps;
-#include <SoftwareSerial.h>
 
 
 long lat, lon;
@@ -58,9 +57,11 @@ void loop()
       
       unsigned long fix_age;
       
-      if (fix_age == TinyGPS::GPS_INVALID_AGE)
+      if (fix_age == TinyGPS::GPS_INVALID_AGE){
         snprintf(datastring,sizeof(datastring),"$$MAX,NO FIX, %d",gps.satellites());
+        rtty_txstring (datastring);
         //mySerial.println("No fix detected");
+            }
       else if (fix_age > 5000);
         //mySerial.println("Warning: possible stale data!");
       else
