@@ -49,23 +49,23 @@ void loop()
       gps.f_get_position(&flat, &flon, &fix_age);
       dtostrf (flat, 10, 6, clat); 
       dtostrf (flon, 10, 6, clon); 
-      int falt = gps.f_altitude(); // +/- altitude in meters
-      dtostrf (falt, 10, 4, calt); 
-      int fc = gps.f_course(); // course in degrees
+      unsigned int alt = gps.f_altitude(); // +/- altitude in meters
+      //dtostrf (falt, 10, 4, calt); 
+      int c = gps.f_course(); // course in degrees
       //dtostrf (fc, 10, 5, cc); 
-      int fmps = gps.f_speed_mps(); // speed in m/sec
+      int mps = gps.f_speed_mps(); // speed in m/sec
       //dtostrf (fmps, 10, 4, cmps); 
-      float flat, flon;
       
       unsigned long fix_age;
       
-      if (fix_age == TinyGPS::GPS_INVALID_AGE);
+      if (fix_age == TinyGPS::GPS_INVALID_AGE)
+        snprintf(datastring,sizeof(datastring),"$$MAX,NO FIX, %d",gps.satellites());
         //mySerial.println("No fix detected");
       else if (fix_age > 5000);
         //mySerial.println("Warning: possible stale data!");
       else
         //mySerial.println("Data is current.");
-        snprintf(datastring,sizeof(datastring),"$$MAX,%d,%d,%s,%s,%d,%d,%d,%d",count,time,clat,clon,gps.satellites(),falt,fmps,fc);
+        snprintf(datastring,sizeof(datastring),"$$MAX,%d,%d,%s,%s,%d,%u,%d,%d",count,time,clat,clon,gps.satellites(),alt,mps,c);
         count = count + 1;
         }
         
