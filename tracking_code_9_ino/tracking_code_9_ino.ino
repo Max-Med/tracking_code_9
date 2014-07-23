@@ -79,7 +79,7 @@ void loop()
         mySerial.println("Warning: possible stale data!");
       else
         mySerial.println("Data is current.");
-        snprintf(datastring,sizeof(datastring),"$$MAX,%l,%l,%s,%s,%d,%s,%s,%s",count,time,clat,clon,gps.satellites(),calt,cmps,cc);
+        snprintf(datastring,sizeof(datastring),"$$MAX,%u,%u,%s,%s,%d,%s,%s,%s",count,time,clat,clon,gps.satellites(),calt,cmps,cc);
         count = count + 1;
         mySerial.println(datastring); 
         
