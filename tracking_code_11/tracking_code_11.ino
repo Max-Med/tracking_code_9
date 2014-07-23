@@ -51,10 +51,10 @@ void loop()
       dtostrf (flon, 10, 6, clon); 
       int falt = gps.f_altitude(); // +/- altitude in meters
       dtostrf (falt, 10, 4, calt); 
-      float fc = gps.f_course(); // course in degrees
-      dtostrf (fc, 10, 5, cc); 
-      float fmps = gps.f_speed_mps(); // speed in m/sec
-      dtostrf (fmps, 10, 4, cmps); 
+      int fc = gps.f_course(); // course in degrees
+      //dtostrf (fc, 10, 5, cc); 
+      int fmps = gps.f_speed_mps(); // speed in m/sec
+      //dtostrf (fmps, 10, 4, cmps); 
       float flat, flon;
       
       unsigned long fix_age;
@@ -65,7 +65,7 @@ void loop()
         //mySerial.println("Warning: possible stale data!");
       else
         //mySerial.println("Data is current.");
-        snprintf(datastring,sizeof(datastring),"$$MAX,%d,%d,%s,%s,%d,%d,%s,%s",count,time,clat,clon,gps.satellites(),calt,cmps,cc);
+        snprintf(datastring,sizeof(datastring),"$$MAX,%d,%d,%s,%s,%d,%d,%d,%d",count,time,clat,clon,gps.satellites(),falt,fmps,fc);
         count = count + 1;
         }
         
