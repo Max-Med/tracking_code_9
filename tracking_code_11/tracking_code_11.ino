@@ -73,10 +73,6 @@ void loop()
       strcat(datastring,checksum_str);
       rtty_txstring (datastring);
      }
-    else{
-     snprintf(datastring,80,"MAX: ERROR 2,%d",gps.satellites());
-     rtty_txstring (datastring);
-     }
   }
 }
 
